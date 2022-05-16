@@ -1,0 +1,67 @@
+* {
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans", Meiryo, sans-serif;
+}
+
+header {
+  background-color: rgb(78, 139, 205);
+}
+
+header p {
+  margin-left: 30px;
+  color: white;
+  font-size: 30px;
+  line-height: 50px;
+  padding: 10px 0;
+  font-weight: 400;
+}
+
+.form {
+  border-radius: 7px;
+  border: 1px solid rgb(165, 164, 164);
+  margin: 5px 0;
+  width: 70%;
+  padding: 7px;
+}
+
+.button {
+  border-radius: 7px;
+  border: 1px solid rgb(165, 164, 164);
+  font-size: 12px;
+  color: rgb(78, 77, 77);
+}
+
+.signup,
+.login {
+  padding: 10px 55px;
+  background-color: rgb(133, 213, 13);
+}
+
+.back {
+  padding: 7px 30px;
+  margin: 5px 10px;
+  background-color: rgb(254, 185, 89);
+}
+
+.back a {
+  text-decoration: none;
+  color: rgb(78, 77, 77);
+}
+
+.link {
+  font-size: 12px;
+  color: rgb(120, 118, 118);
+  text-decoration: underline rgb(165, 164, 164);
+}
+
+.mb-5 {
+  margin-bottom: 5px !important;
+}
+
+.mb-10 {
+  margin-bottom: 10px !important;
+}
+
+.mb-15 {
+  margin-bottom: 15px !important;
+}
