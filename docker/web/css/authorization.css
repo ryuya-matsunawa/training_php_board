@@ -1,0 +1,39 @@
+.authorization-wrap {
+  width: calc(100vw - 50%);
+  margin: 0 auto;
+}
+
+.title-wrap {
+  text-align: center;
+  margin: 30px auto;
+}
+
+.title-wrap .title {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.title-wrap .mini {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.form-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 7px;
+  padding: 20px 0;
+  background-color: rgb(240, 237, 237);
+}
+
+.form-wrap .title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.form-wrap .description {
+  font-size: 12px;
+  margin-bottom: 15px;
+}
