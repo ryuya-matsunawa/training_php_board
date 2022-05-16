@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="../css/reset.css">
   <link rel="stylesheet" href="../css/common.css">
   <link rel="stylesheet" href="../css/authorization.css">
+  <script src="../js/script.js"></script>
 </head>
 
 <body>
@@ -24,9 +25,9 @@
     <div class="form-wrap">
       <p class="title">新規追加</p>
       <p class="description">ユーザーIDとパスワードを登録してください。</p>
-      <input class="form mb-10" type="text" placeholder="ユーザーID">
-      <input class="form" type="password" placeholder="パスワード">
-      <input class="form mb-15" type="password" placeholder="パスワード確認">
+      <input class="form mb-10" type="text" placeholder="ユーザーID" maxlength="20" onInput="replaceStr(this)">
+      <input class="form" type="password" placeholder="パスワード" maxlength="20" onInput="replaceStr(this)">
+      <input class="form mb-15" type="password" placeholder="パスワード確認" maxlength="20" onInput="replaceStr(this)">
       <button class="button signup">登録する</button>
     </div>
   </div>
