@@ -84,16 +84,16 @@ if (isset($_POST['new_post'])) {
             <tbody>
                 <?php foreach ($posts as $key => $val) : ?>
                     <tr>
-                        <td><input type="checkbox"></td>
-                        <td><?php echo $val['seq_no']; ?></td>
-                        <td><?php echo $val['user_id']; ?></td>
-                        <td><?php echo date('Y/m/d', strtotime($val['post_date'])); ?></td>
-                        <td>
+                        <td style="width: 5%"><input type="checkbox"></td>
+                        <td style="width: 5%"><?php echo $val['seq_no']; ?></td>
+                        <td style="width: 10%"><?php echo $val['user_id']; ?></td>
+                        <td style="width: 10%"><?php echo date('Y/m/d', strtotime($val['post_date'])); ?></td>
+                        <td style="width: 60%; word-break: break-all;">
                             <?php echo $val['post_title']; ?><br>
                             <?php echo $val['post_contents']; ?>
                         </td>
-                        <td><i class="fa-solid fa-pen-to-square"></i></td>
-                        <td><i class="fa-solid fa-xmark"></i></td>
+                        <td style="width: 5%"><i class="fa-solid fa-pen-to-square"></i></td>
+                        <td style="width: 5%"><i class="fa-solid fa-xmark"></i></td>
                     </tr>
                 <?php endforeach; ?>
                 <!-- <tr>
@@ -118,11 +118,11 @@ if (isset($_POST['new_post'])) {
                 <form method="POST" action="">
                     <div class="title">
                         <p>投稿タイトル</p>
-                        <input type="text" name="title" placeholder="20文字以内で入力してください">
+                        <input type="text" name="title" placeholder="20文字以内で入力してください" maxlength="20">
                     </div>
                     <div class="content">
                         <p>投稿内容</p>
-                        <textarea name="content" id="" cols="30" rows="10"></textarea>
+                        <textarea name="content" id="" cols="30" rows="10" maxlength="200"></textarea>
                     </div>
                     <div class="d-flex-center">
                         <button type="submit" name="new_post" class="button post">投稿する</button>
