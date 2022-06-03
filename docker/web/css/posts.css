@@ -80,3 +80,7 @@ table, th, td {
 .post-table tbody tr:nth-child(even) {
     background-color: rgb(241, 238, 238);
 }
+
+.post-table tbody td {
+    padding: 10px;
+}
