@@ -1,7 +1,5 @@
 <?php
 
-require_once("ValidationUtil.php");
-
 class Validation
 {
     /**
@@ -40,37 +38,4 @@ class Validation
             return $errors;
         }
     }
-
-    /**
-     * ログイン時のバリデーションチェック
-     * 
-     * @param int $loginuserid ユーザーID
-     * @param int $loginpassword パスワード
-     * 
-     * @return string　$loginerrors
-     */
-    // public function loginValidation($loginuserid, $loginpassword)
-    // {
-    //     $loginerrors = '';
-    //     $logindata = new Db();
-    //     $logininfo = $logindata->userLogin($loginuserid);
-
-    //     if (empty($loginuserid) || empty($loginpassword)) {
-    //         $loginerrors .= "項目に未記入のものがあります。" . '\n';
-    //     }
-
-    //     if (!$logininfo) {
-    //         $loginerrors .= 'ユーザーIDが存在しません。' . '\n';
-    //     }
-
-    //     if (password_verify($loginpassword, $logininfo['password'])) {
-    //         $_SESSION['userId'] = $logininfo['user_id'];
-    //     } else {
-    //         $loginerrors .= 'ユーザーIDかパスワードが正しくありません。' . '\n';
-    //     }
-
-    //     if (!empty($loginerrors)) {
-    //         return $loginerrors;
-    //     }
-    // }
 }

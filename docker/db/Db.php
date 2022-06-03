@@ -79,4 +79,17 @@ class Db
             echo $e->getMessage();
         }
     }
+
+    public function fetchPosts() {
+        try {
+            $db = $this->connectDb();
+            $sql = "SELECT posts.seq_no, u.user_id, post_date , post_title , post_contents  FROM posts left join users u on posts.user_id = u.seq_no;";
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }

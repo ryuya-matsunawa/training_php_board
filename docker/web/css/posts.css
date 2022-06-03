@@ -1,0 +1,42 @@
+.post-table {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 50px auto 0;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.table-header .title {
+    font-size: 1.5rem;
+    margin-left: 10px;
+    font-weight: 600;
+    color: gray;
+}
+
+.table-header .delete {
+    background-color: rgb(133, 213, 13);
+    font-size: 1.5rem;
+    padding: 0 24px;
+}
+
+.post-table .table {
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.post-table thead tr {
+    background-color: rgb(138, 207, 242);
+}
+
+table, th, td {
+    border: 1px solid gray;
+}
+
+.post-table tbody tr:nth-child(even) {
+    background-color: rgb(241, 238, 238);
+}
