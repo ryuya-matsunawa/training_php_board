@@ -65,3 +65,9 @@ header p {
 .mb-15 {
   margin-bottom: 15px !important;
 }
+
+.d-flex-center {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
