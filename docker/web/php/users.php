@@ -2,32 +2,7 @@
 require_once '../../db/Db.php';
 
 $db = new Db();
-//ログインをせずに投稿一覧画面を開けないようにするための対処
-if (!isset($_SESSION["user_id"])) {
-    header('Location:/');
-}
-
 $posts = $db->fetchPosts();
-
-// var_dump($_POST);
-// if (isset($_POST['action'])) {
-//     var_dump($posts);
-//     test();
-// }
-
-// function test() {
-//     $alert = "<script type='text/javascript'>alert('hoge');</script>";
-//     echo $alert;
-// }
-if (isset($_POST['new_post'])) {
-    $title = $_POST['title'];
-    $content = $_POST['content'];
-    // var_dump($_SESSION);
-    $user_id = $_SESSION['user_id'];
-    $posts = $db->postContent($title, $content, $user_id);
-}
-
-
 ?>
 
 <html>
@@ -52,10 +27,10 @@ if (isset($_POST['new_post'])) {
         <div onclick="openPostModal()">
             <p>投稿追加</p>
         </div>
-        <div onclick="location.href='./users.php'">
+        <div>
             <p>ユーザー管理</p>
         </div>
-        <div onclick="location.href='../../db/logout.php'">
+        <div>
             <p>ログアウト</p>
         </div>
     </div>
@@ -115,19 +90,17 @@ if (isset($_POST['new_post'])) {
                 <i id="menu-icon" class="fa-solid fa-xmark" onclick="closePostModal()"></i>
             </div>
             <div class="modal-content">
-                <form method="POST" action="">
-                    <div class="title">
-                        <p>投稿タイトル</p>
-                        <input type="text" name="title" placeholder="20文字以内で入力してください">
-                    </div>
-                    <div class="content">
-                        <p>投稿内容</p>
-                        <textarea name="content" id="" cols="30" rows="10"></textarea>
-                    </div>
-                    <div class="d-flex-center">
-                        <button type="submit" name="new_post" class="button post">投稿する</button>
-                    </div>
-                </form>
+                <div class="title">
+                    <p>投稿タイトル</p>
+                    <input type="text" placeholder="20文字以内で入力してください">
+                </div>
+                <div class="content">
+                    <p>投稿内容</p>
+                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                </div>
+                <div class="d-flex-center">
+                    <button class="button post">投稿する</button>
+                </div>
             </div>
         </div>
     </div>
