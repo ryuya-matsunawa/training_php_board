@@ -1,7 +1,47 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .menu-icon {
+    text-align: center;
+    margin-right: 20px;
+}
+
+.header .menu-icon i {
+    font-size: 2.5rem;
+    color: white;
+}
+
+.header .menu-icon p {
+    margin: 0;
+    font-size: 0.7rem;
+    line-height: normal;
+    padding: 0;
+}
+
+.menu-content {
+    position: absolute;
+    top: 100px;
+    right: 40px;
+    background-color: rgb(236, 235, 235);
+}
+
+.menu-content div {
+    text-align: center;
+    padding: 10px 70px;
+    border: 0.5px solid gray;
+}
+
+.menu-content.hide {
+    display: none;
+}
+
 .post-table {
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 80%;
     margin: 50px auto 0;
 }
 

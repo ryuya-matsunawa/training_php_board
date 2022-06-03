@@ -59,7 +59,7 @@ class Db
     public function login($user_id, $password) {
         try {
             $db = $this->connectDb();
-            $sql = "SELECT password FROM users WHERE user_id = :user_id;";
+            $sql = "SELECT seq_no, password FROM users WHERE user_id = :user_id;";
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':user_id', $user_id);
             $stmt->execute();
@@ -70,6 +70,7 @@ class Db
             }
 
             if (password_verify($password, $result['password'])) {
+                $_SESSION['user_id'] = $result['seq_no'];
                 header('Location:/docker/web/php/posts.php');
             } else {
                 $error = 'ユーザーIDかパスワードが間違っています';
@@ -83,10 +84,26 @@ class Db
     public function fetchPosts() {
         try {
             $db = $this->connectDb();
-            $sql = "SELECT posts.seq_no, u.user_id, post_date , post_title , post_contents  FROM posts left join users u on posts.user_id = u.seq_no;";
+            $sql = "SELECT posts.seq_no, u.user_id, post_date , post_title , post_contents  FROM posts left join users u on posts.user_id = u.seq_no ORDER BY posts.seq_no;";
             $stmt = $db->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll();
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function postContent($title, $content, $user_id) {
+        try {
+            $db = $this->connectDb();
+            $sql = "INSERT INTO posts (user_id, post_title, post_contents, post_date) VALUES (:user_id, :title, :content, now());";
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':user_id', $user_id);
+            $stmt->bindValue(':title', $title);
+            $stmt->bindValue(':content', $content);
+            $stmt->execute();
+            $result = $this->fetchPosts();
             return $result;
         } catch (PDOException $e) {
             echo $e->getMessage();

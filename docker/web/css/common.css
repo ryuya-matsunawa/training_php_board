@@ -32,7 +32,8 @@ header p {
 }
 
 .signup,
-.login {
+.login,
+.post {
   padding: 10px 55px;
   background-color: rgb(133, 213, 13);
 }
@@ -70,4 +71,53 @@ header p {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+}
+
+.modal-wrap {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: opacity 300ms ease-in-out;
+}
+
+.modal-wrap.hide {
+  display: none;
+}
+
+.modal {
+  position: absolute;
+  width: 45%;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border: 1px solid gray;
+  top: 45%;
+  left: 50%;
+  border-radius: 20px;
+  transform: translateX(-50%) translateY(-50%);
+  pointer-events: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid gray;
+}
+
+.modal-content {
+  padding: 20px;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  border-radius: 7px;
+}
+
+.modal-content .content {
+  margin: 30px 0 60px;
 }
