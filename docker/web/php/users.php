@@ -87,7 +87,7 @@ $posts = $db->fetchPosts();
         <div class="modal">
             <div class="modal-header">
                 <p>投稿追加</p>
-                <i id="menu-icon" class="fa-solid fa-xmark" onclick="closePostModal()"></i>
+                <i id="menu-icon" class="fa-solid fa-xmark" onclick="closeModal('post-modal')"></i>
             </div>
             <div class="modal-content">
                 <div class="title">
