@@ -9,24 +9,29 @@ if (!isset($_SESSION["user_id"])) {
 
 $posts = $db->fetchPosts();
 
-// var_dump($_POST);
-// if (isset($_POST['action'])) {
-//     var_dump($posts);
-//     test();
-// }
-
-// function test() {
-//     $alert = "<script type='text/javascript'>alert('hoge');</script>";
-//     echo $alert;
-// }
 if (isset($_POST['new_post'])) {
+    $user_id = $_SESSION['user_id'];
     $title = $_POST['title'];
     $content = $_POST['content'];
-    // var_dump($_SESSION);
-    $user_id = $_SESSION['user_id'];
-    $posts = $db->postContent($title, $content, $user_id);
+    $posts = $db->postContent($user_id, $title, $content);
 }
 
+if (isset($_POST['edit_post'])) {
+    $seq_no = $_POST['seq_no'];
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+    $posts = $db->editContent($seq_no, $title, $content);
+}
+
+if (isset($_POST['delete'])) {
+    $seq_no = $_POST['seq_no'];
+    $posts = $db->deleteContent($seq_no);
+}
+
+if (isset($_POST['bulk-delete'])) {
+    $seq_no_array = array_map('intval', $_POST['checks']);
+    $posts = $db->bulkDelete($seq_no_array);
+}
 
 ?>
 
@@ -49,7 +54,7 @@ if (isset($_POST['new_post'])) {
         </div>
 	</header>
     <div id="menu-content" class="menu-content hide">
-        <div onclick="openPostModal()">
+        <div onclick="openModal('post-modal')">
             <p>投稿追加</p>
         </div>
         <div onclick="location.href='./users.php'">
@@ -62,7 +67,7 @@ if (isset($_POST['new_post'])) {
 	<div class="post-table">
         <div class="table-header">
             <p class="title">投稿一覧</p>
-            <button class="button delete">削除</button>
+            <button id="bulk-delete" class="button delete" disabled="disabled" type="submit" onclick="setPostIds()">削除</button>
         </div>
         <table class="table">
             <thead>
@@ -84,7 +89,7 @@ if (isset($_POST['new_post'])) {
             <tbody>
                 <?php foreach ($posts as $key => $val) : ?>
                     <tr>
-                        <td style="width: 5%"><input type="checkbox"></td>
+                        <td style="width: 5%"><input class="check" type="checkbox" onchange="chnageCheckbox()" name="checks[]" form="bulk-delete-form" value="<?php echo $val['seq_no']; ?>"></td>
                         <td style="width: 5%"><?php echo $val['seq_no']; ?></td>
                         <td style="width: 10%"><?php echo $val['user_id']; ?></td>
                         <td style="width: 10%"><?php echo date('Y/m/d', strtotime($val['post_date'])); ?></td>
@@ -92,27 +97,33 @@ if (isset($_POST['new_post'])) {
                             <?php echo $val['post_title']; ?><br>
                             <?php echo $val['post_contents']; ?>
                         </td>
-                        <td style="width: 5%"><i class="fa-solid fa-pen-to-square"></i></td>
-                        <td style="width: 5%"><i class="fa-solid fa-xmark"></i></td>
+                        <td
+                            style="width: 5%"
+                            data-seq-no="<?php echo $val['seq_no']; ?>"
+                            data-title="<?php echo $val['post_title']; ?>"
+                            data-content="<?php echo $val['post_contents']; ?>"
+                            onclick="setPostData(this)"
+                        >
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </td>
+                        <td
+                            style="width: 5%"
+                            data-target="<?php echo $val['seq_no']; ?>"
+                            onclick="setPostId(this)"
+                        >
+                            <i class="fa-solid fa-xmark"></i>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
-                <!-- <tr>
-                    <td><input type="checkbox"></td>
-                    <td>1</td>
-                    <td>hoge</td>
-                    <td>2022</td>
-                    <td>内容</td>
-                    <td><i class="fa-solid fa-pen-to-square"></i></td>
-                    <td><i class="fa-solid fa-xmark"></i></td>
-                </tr> -->
             </tbody>
         </table>
     </div>
+    <!-- 新規投稿モーダル -->
     <div id="post-modal" class="modal-wrap hide">
         <div class="modal">
             <div class="modal-header">
                 <p>投稿追加</p>
-                <i id="menu-icon" class="fa-solid fa-xmark" onclick="closePostModal()"></i>
+                <i id="menu-icon" class="fa-solid fa-xmark" onclick="closeModal('post-modal')"></i>
             </div>
             <div class="modal-content">
                 <form method="POST" action="">
@@ -129,6 +140,47 @@ if (isset($_POST['new_post'])) {
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+    <!-- 編集モーダル -->
+    <div id="edit-modal" class="modal-wrap hide">
+        <div class="modal">
+            <div class="modal-header">
+                <p>投稿編集</p>
+                <i id="menu-icon" class="fa-solid fa-xmark" onclick="closeModal('edit-modal')"></i>
+            </div>
+            <div class="modal-content">
+                <form id="edit" method="POST" action="">
+                    <div class="title">
+                        <p>投稿タイトル</p>
+                        <input id="edit-title" type="text" name="title" placeholder="20文字以内で入力してください" maxlength="20">
+                    </div>
+                    <div class="content">
+                        <p>投稿内容</p>
+                        <textarea id="edit-content" name="content" id="" cols="30" rows="10" maxlength="200"></textarea>
+                    </div>
+                    <div class="d-flex-center">
+                        <button type="submit" name="edit_post" class="button post">投稿する</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 削除確認ダイアログ -->
+    <div id="delete-dialog" class="dialog hide">
+        <div>
+            <form id="delete" action="" method="POST">
+                <button type="submit" name="delete">はい</button>
+            </form>
+            <button onclick="closeModal('delete-dialog')">キャンセル</button>
+        </div>
+    </div>
+    <div id="delete-bulk-dialog" class="dialog hide">
+        <div>
+            <form id="bulk-delete-form" action="" method="POST">
+                <button type="submit" name="bulk-delete">はい</button>
+            </form>
+            <button onclick="closeModal('delete-bulk-dialog')">キャンセル</button>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

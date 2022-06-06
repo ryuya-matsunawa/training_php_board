@@ -94,7 +94,7 @@ class Db
         }
     }
 
-    public function postContent($title, $content, $user_id) {
+    public function postContent($user_id, $title, $content) {
         try {
             $db = $this->connectDb();
             $sql = "INSERT INTO posts (user_id, post_title, post_contents, post_date) VALUES (:user_id, :title, :content, now());";
@@ -103,6 +103,51 @@ class Db
             $stmt->bindValue(':title', $title);
             $stmt->bindValue(':content', $content);
             $stmt->execute();
+            $result = $this->fetchPosts();
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function editContent($seq_no, $title, $content) {
+        try {
+            $db = $this->connectDb();
+            $sql = "UPDATE posts set post_title = :title, post_contents = :content WHERE seq_no = :seq_no;";
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':seq_no', $seq_no);
+            $stmt->bindValue(':title', $title);
+            $stmt->bindValue(':content', $content);
+            $stmt->execute();
+            $result = $this->fetchPosts();
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function deleteContent($seq_no) {
+        try {
+            $db = $this->connectDb();
+            $sql = "DELETE from posts WHERE seq_no = :seq_no;";
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':seq_no', $seq_no);
+            $stmt->execute();
+            $result = $this->fetchPosts();
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function bulkDelete($seq_no_array)
+    {
+        try {
+            $db = $this->connectDb();
+            $inClause = substr(str_repeat(',?', count($seq_no_array)), 1);
+            $sql = sprintf('DELETE from posts WHERE seq_no in (%s);', $inClause);
+            $stmt = $db->prepare($sql);
+            $stmt->execute($seq_no_array);
             $result = $this->fetchPosts();
             return $result;
         } catch (PDOException $e) {
