@@ -154,4 +154,18 @@ class Db
             echo $e->getMessage();
         }
     }
+
+    public function fetchUsers()
+    {
+        try {
+            $db = $this->connectDb();
+            $sql = "SELECT * FROM users;";
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }
